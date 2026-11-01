@@ -5,6 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f5f6f3">
 <title>Kara Nawzad — Telecom & Network Engineering</title>
+<meta name="description" content="Telecom engineering graduate from Sulaymaniyah, Kurdistan, building network engineering tools and AI-powered telecom projects.">
+<meta name="author" content="Kara Nawzad Hassan">
+<link rel="canonical" href="https://karanawzad.tech/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://karanawzad.tech/">
+<meta property="og:title" content="Kara Nawzad — Telecom & Network Engineering">
+<meta property="og:description" content="Telecom engineering graduate from Sulaymaniyah, Kurdistan, building network engineering tools and AI-powered telecom projects.">
+<meta property="og:image" content="https://karanawzad.tech/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kara Nawzad — Telecom & Network Engineering">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kara Nawzad — Telecom & Network Engineering">
+<meta name="twitter:description" content="Telecom engineering graduate from Sulaymaniyah, Kurdistan, building network engineering tools and AI-powered telecom projects.">
+<meta name="twitter:image" content="https://karanawzad.tech/assets/og-image.png">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<script>
+  /* Paste the certificate URLs here.
+     A "View certificate ↗" link is rendered only when its URL is non-empty,
+     so an empty value never produces a dead or "#" link. */
+  const CERT_DTI_URL = "/DTI.jpg";
+  const CERT_CYBER_URL = "/certificate.pdf";
+  document.documentElement.classList.add("js");
+</script>
 <style>
 :root {
   --site-primary: #243b53;
@@ -15,22 +39,22 @@
   --site-on-background: #1d2935;
   --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --site-font-heading: Inter, ui-sans-serif, system-ui, sans-serif;
-  color-scheme: light dark;
+  color-scheme: light;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; background: light-dark(#f5f6f3,#111820); color: light-dark(#1d2935,#edf2f5); font-family: var(--site-font-body); line-height: 1.6; }
-#app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); overflow: hidden; }
+#app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); overflow-x: clip; }
 a { color: inherit; text-decoration: none; }
 .wrap { width: min(1160px, calc(100% - 48px)); margin: 0 auto; }
 .topbar { height: 76px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #dce2e3; position:sticky; top:0; z-index:10; background:rgba(245,246,243,.92); backdrop-filter:blur(14px); }
 .brand { font-size:15px; font-weight:750; letter-spacing:-.035em; color:#20364b; display:flex; gap:10px; align-items:center; }
 .brand-mark { width:27px; height:27px; border:1.5px solid #537b96; border-radius:8px; display:grid; place-items:center; color:#315b78; font-size:12px; font-weight:700; }
-.nav { display:flex; align-items:center; gap:30px; font-size:12px; color:#5c6a75; font-weight:600; }
+.nav { display:flex; align-items:center; gap:30px; font-size:13px; color:#5c6a75; font-weight:600; }
 .nav a:hover { color:#245b7b; }
 .nav .nav-cta { padding:9px 15px; border:1px solid #b9c9d2; border-radius:7px; color:#294d68; }
 .hero { padding:104px 0 68px; position:relative; }
-.eyebrow { color:#55768b; font-size:11px; text-transform:uppercase; letter-spacing:.16em; font-weight:750; display:flex; align-items:center; gap:10px; }
+.eyebrow { color:#4b6a7e; font-size:12px; text-transform:uppercase; letter-spacing:.16em; font-weight:750; display:flex; align-items:center; gap:10px; }
 .eyebrow:before { content:""; width:23px; height:1px; background:#7ba2b9; }
 h1 { font-family:var(--site-font-heading); font-size:clamp(46px,7.2vw,82px); letter-spacing:-.075em; line-height:1.02; max-width:850px; margin:25px 0 23px; font-weight:690; color:#1c3042; }
 .hero h1 span { color:#557f9a; }
@@ -41,73 +65,109 @@ h1 { font-family:var(--site-font-heading); font-size:clamp(46px,7.2vw,82px); let
 .btn.primary { background:#294c67; color:#fff; }
 .btn.secondary { border:1px solid #c7d1d6; color:#29465e; background:rgba(255,255,255,.45); }
 .hero-meta { display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid #d8e0e2; margin-top:85px; padding-top:24px; gap:22px; }
-.meta-label { display:block; font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:#82909a; font-weight:750; margin-bottom:6px; }
-.meta-value { color:#314657; font-size:13px; font-weight:650; }
+.meta-label { display:block; font-size:11px; letter-spacing:.13em; text-transform:uppercase; color:#65737d; font-weight:750; margin-bottom:6px; }
+.meta-value { color:#314657; font-size:14px; font-weight:650; }
 .section { padding:86px 0; border-top:1px solid #dfe4e4; }
 .section-head { display:flex; justify-content:space-between; align-items:end; gap:30px; margin-bottom:35px; }
-.section-kicker { font-size:10px; color:#68869a; letter-spacing:.15em; text-transform:uppercase; font-weight:800; }
+.section-kicker { font-size:11px; color:#526f84; letter-spacing:.15em; text-transform:uppercase; font-weight:800; }
 h2 { font-size:clamp(30px,4vw,43px); line-height:1.1; letter-spacing:-.06em; color:#203448; margin:10px 0 0; font-weight:680; }
-.section-intro { max-width:390px; color:#6b7881; font-size:14px; margin:0 0 3px; }
+.section-intro { max-width:390px; color:#5f6d76; font-size:15px; margin:0 0 3px; }
 .project-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; }
 .project { background:#fff; border:1px solid #e0e5e4; border-radius:12px; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; transition:transform .22s,border-color .22s,box-shadow .22s; }
 .project:hover { transform:translateY(-4px); border-color:#b9ccd6; box-shadow:0 16px 35px rgba(31,57,74,.07); }
 .project.featured { grid-column:span 2; display:grid; grid-template-columns:1fr 1fr; }
-.project-art { min-height:220px; background:#eaf0f1; position:relative; overflow:hidden; }
-.project.featured .project-art { min-height:100%; order:2; }
-.project-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.project-art { position:relative; overflow:hidden; aspect-ratio:16/9; background:#eaf0f1; }
+.project-art img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+/* Featured card: image column stretches to the text height (same size as before); cover, anchored at the top */
+.project.featured .project-art { order:2; aspect-ratio:auto; min-height:320px; background:#eeece1; }
+/* Portrait map (KurdLine): show the whole image over a blurred copy of itself */
+.project-art.portrait { background:#09131b; }
+.project-art.portrait::before { content:""; position:absolute; inset:-30px; background:var(--art) center/cover no-repeat; filter:blur(22px) brightness(.55); }
+.project-art.portrait img { object-fit:contain; object-position:center; z-index:1; }
 .project-body { padding:28px; flex-grow:1; display:flex; flex-direction:column; justify-content:space-between; }
 .project-top { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; }
-.project-type { color:#668397; font-size:10px; text-transform:uppercase; letter-spacing:.11em; font-weight:800; }
-.project-num { color:#a4afb5; font-size:11px; font-variant-numeric:tabular-nums; }
+.project-type { color:#55748a; font-size:11px; text-transform:uppercase; letter-spacing:.11em; font-weight:800; }
+.project-num { color:#6c7880; font-size:12px; font-variant-numeric:tabular-nums; }
 h3 { color:#20384d; font-size:23px; line-height:1.2; letter-spacing:-.045em; margin:0 0 10px; font-weight:700; }
 .project.featured h3 { font-size:29px; }
-.project p { color:#66747d; font-size:13px; line-height:1.75; margin:0 0 14px; }
+.project p { color:#56656f; font-size:14px; line-height:1.75; margin:0 0 14px; }
 .tags { display:flex; flex-wrap:wrap; gap:7px; margin-top:14px; }
-.tag { background:#f1f5f5; color:#587184; border:1px solid #e4ebeb; border-radius:5px; padding:5px 8px; font-size:10px; font-weight:650; }
-.project-footer-link { margin-top:18px; padding-top:14px; border-top:1px solid #e8eded; font-size:12px; font-weight:700; color:#294c67; display:inline-flex; align-items:center; gap:6px; }
+.tag { background:#f1f5f5; color:#587184; border:1px solid #e4ebeb; border-radius:5px; padding:5px 9px; font-size:11px; font-weight:650; }
+.project-footer-link { margin-top:18px; padding-top:14px; border-top:1px solid #e8eded; font-size:13px; font-weight:700; color:#294c67; display:inline-flex; align-items:center; gap:6px; }
 .project-footer-link:hover { color:#1c3042; }
-.skills-panel { background:#e8eff1; border-radius:12px; padding:30px; display:grid; grid-template-columns:repeat(4,1fr); gap:25px; }
-.skill-group h3 { font-size:13px; margin:0 0 12px; }
-.skill-group p { color:#61717b; font-size:12px; line-height:1.9; margin:0; }
+.skills-panel { background:#e8eff1; border-radius:12px; padding:30px; display:grid; grid-template-columns:repeat(5,1fr); gap:25px; }
+.skill-group h3 { font-size:14px; margin:0 0 12px; }
+.skill-group p { color:#55646e; font-size:13px; line-height:1.9; margin:0; }
 .timeline-grid { display:grid; grid-template-columns:1fr 1fr; gap:65px; }
-.column-title { font-size:11px; letter-spacing:.13em; text-transform:uppercase; color:#68869a; font-weight:800; border-bottom:1px solid #dce3e4; padding-bottom:14px; margin-bottom:22px; }
+.column-title { font-size:12px; letter-spacing:.13em; text-transform:uppercase; color:#5a7485; font-weight:800; border-bottom:1px solid #dce3e4; padding-bottom:14px; margin-bottom:22px; }
 .timeline-item { padding:0 0 25px 20px; border-left:1px solid #c5d5dc; position:relative; margin-left:5px; }
 .timeline-item:before { content:""; position:absolute; left:-4px; top:5px; width:7px; height:7px; border-radius:50%; background:#6389a1; }
-.timeline-date { color:#78909f; font-size:10px; letter-spacing:.1em; text-transform:uppercase; font-weight:750; }
+.timeline-date { color:#5c7484; font-size:11px; letter-spacing:.1em; text-transform:uppercase; font-weight:750; }
 .timeline-item h3 { font-size:17px; margin:5px 0; }
-.timeline-item p { margin:0; color:#697780; font-size:12px; line-height:1.7; }
+.column-title.spaced { margin-top:18px; }
+.timeline-item p { margin:0; color:#5b6973; font-size:13px; line-height:1.7; }
 .cert-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
 .cert { background:#fff; border:1px solid #e1e7e6; border-radius:9px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; }
-.cert small { display:block; color:#7690a0; text-transform:uppercase; letter-spacing:.11em; font-size:9px; font-weight:800; margin-bottom:9px; }
-.cert h3 { font-size:15px; margin:0 0 6px; }
-.cert p { font-size:11px; color:#78848c; margin:0; line-height:1.6; }
-.cert-link { display:inline-block; margin-top:10px; font-size:11px; font-weight:700; color:#294c67; }
+.cert small { display:block; color:#5f7a8c; text-transform:uppercase; letter-spacing:.11em; font-size:10.5px; font-weight:800; margin-bottom:9px; }
+.cert h3 { font-size:16px; margin:0 0 6px; }
+.cert p { font-size:12.5px; color:#5f6d76; margin:0; line-height:1.6; }
+.cert-link[hidden] { display:none; }
+.cert-link { display:inline-block; margin-top:10px; font-size:12px; font-weight:700; color:#294c67; }
 .contact { background:#e6eef0; padding:62px 0; }
 .contact-inner { display:flex; align-items:center; justify-content:space-between; gap:30px; }
 .contact h2 { max-width:570px; font-size:clamp(31px,4.8vw,52px); }
-.contact p { color:#657680; font-size:13px; margin:12px 0 0; }
+.contact p { color:#55666f; font-size:14px; margin:12px 0 0; }
 .contact-links { display:flex; gap:10px; flex-wrap:wrap; }
-.footer { padding:22px 0; color:#8a969c; font-size:10px; display:flex; justify-content:space-between; gap:15px; }
-@media (max-width:800px) { .nav {gap:15px;} .nav a:nth-child(2),.nav a:nth-child(3) {display:none;} .hero-meta {grid-template-columns:repeat(2,1fr);} .project.featured {grid-template-columns:1fr;} .skills-panel {grid-template-columns:repeat(2,1fr);} .timeline-grid {gap:35px;} .cert-grid {grid-template-columns:repeat(2,1fr);} .contact-inner {display:block;} }
+.contact-email-line { margin-top:14px !important; }
+.contact-email { font-weight:700; color:#294c67; border-bottom:1px solid #b9c9d2; }
+.contact-email:hover { color:#1c3042; }
+/* Accessibility */
+.skip-link { position:absolute; left:16px; top:-64px; z-index:100; background:#294c67; color:#fff; padding:12px 16px; border-radius:7px; font-size:13px; font-weight:700; }
+.skip-link:focus { top:12px; }
+a:focus-visible, button:focus-visible { outline:2px solid #294c67; outline-offset:3px; border-radius:7px; }
+main:focus { outline:none; }
+#work, #capabilities, #experience, #credentials, #contact { scroll-margin-top:88px; }
+.nav-toggle { display:none; }
+.footer { padding:22px 0; color:#667279; font-size:12px; display:flex; justify-content:space-between; gap:15px; }
+@media (max-width:1000px) { .skills-panel {grid-template-columns:repeat(3,1fr);} }
+@media (max-width:800px) { .nav {gap:15px;} .project-grid {grid-template-columns:1fr;} .project.featured {grid-column:auto;} .section-head {flex-direction:column; align-items:flex-start; gap:14px;} .section-intro {max-width:none;} .brand {min-height:44px;} .project-footer-link, .cert-link {min-height:44px; display:inline-flex; align-items:center;} .contact-email {display:inline-block; padding:11px 0;} .hero-meta {grid-template-columns:repeat(2,1fr);} .project.featured {grid-template-columns:1fr;} .project.featured .project-art {aspect-ratio:16/9; min-height:0;} .skills-panel {grid-template-columns:repeat(2,1fr);} .timeline-grid {grid-template-columns:1fr;} .timeline-grid {gap:35px;} .cert-grid {grid-template-columns:repeat(2,1fr);} .contact-inner {display:block;} .contact-links {margin-top:24px;} }
+/* Mobile menu: only when JS is available, otherwise the links stay visible and wrap */
+@media (max-width:800px) {
+  .js .nav-toggle { display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:0 15px; border:1px solid #b9c9d2; border-radius:7px; background:transparent; color:#294d68; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+  .js .nav { display:none; position:absolute; top:76px; left:0; right:0; flex-direction:column; align-items:stretch; gap:0; padding:8px 24px 16px; background:#f5f6f3; border-bottom:1px solid #dce2e3; box-shadow:0 12px 24px rgba(31,57,74,.06); }
+  .js .nav.open { display:flex; }
+  .js .nav a { display:flex; align-items:center; min-height:44px; font-size:15px; border-bottom:1px solid #e3e8e8; }
+  .js .nav a:last-child { border-bottom:0; }
+  .js .nav .nav-cta { margin-top:10px; justify-content:center; border-bottom:1px solid #b9c9d2; }
+  .nav { flex-wrap:wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior:auto; }
+  *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; }
+  .btn:hover, .project:hover { transform:none; }
+}
+@media (max-width:520px) { .cert-grid {grid-template-columns:1fr;} .skills-panel {grid-template-columns:1fr;} .hero-meta {grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
+<a class="skip-link" href="#content">Skip to content</a>
 <div id="app">
-<header class="topbar"><div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:min(1160px,calc(100% - 48px));">
-<a class="brand" href="#top"><span class="brand-mark">K</span><span>Kara Nawzad</span></a>
-<nav class="nav" aria-label="Main navigation"><a href="#work">Work</a><a href="#experience">Experience</a><a href="#credentials">Training</a><a class="nav-cta" href="#contact">Contact ↗</a></nav>
+<header class="topbar" id="top"><div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:min(1160px,calc(100% - 48px));">
+<a class="brand" href="#top" aria-label="Kara Nawzad, back to top"><span class="brand-mark" aria-hidden="true">K</span><span>Kara Nawzad</span></a>
+<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+<nav class="nav" id="site-nav" aria-label="Main navigation"><a href="#work">Work</a><a href="#experience">Experience</a><a href="#credentials">Training</a><a href="/Kara_Nawzad_Hassan_CV.pdf" download aria-label="Download CV (PDF)">CV</a><a class="nav-cta" href="#contact" aria-label="Contact section">Contact <span aria-hidden="true">↗</span></a></nav>
 </div></header>
-<main id="top">
+<main id="content" tabindex="-1">
 <section class="hero wrap">
 <div class="eyebrow">Telecom engineering · Sulaymaniyah, Kurdistan</div>
 <h1>Engineering networks.<br><span>Building what’s next.</span></h1>
-<p class="lead">I’m a Telecom Engineering graduate interested in the systems that keep us connected — from wireless and fiber networks to AI-powered engineering tools.</p>
-<div class="actions"><a class="btn primary" href="#work">Explore my work <span>↗</span></a><a class="btn secondary" href="#contact">Get in touch</a></div>
+<p class="lead">I’m a telecom engineering graduate with hands-on exposure to telecom operations, machine-learning antenna design, and building network tools that make complex systems easy to understand and manage.</p>
+<div class="actions"><a class="btn primary" href="#work" aria-label="Explore my work: jump to projects">Explore my work <span aria-hidden="true">↗</span></a><a class="btn secondary" href="#contact">Get in touch</a><a class="btn secondary" href="/Kara_Nawzad_Hassan_CV.pdf" download aria-label="Download CV (PDF)">Download CV <span aria-hidden="true">↓</span></a></div>
 <div class="hero-meta">
-<div><span class="meta-label">Education</span><span class="meta-value">B.Sc. · Telecom Engineering</span></div>
-<div><span class="meta-label">University</span><span class="meta-value">Sulaimani Polytechnic University</span></div>
-<div><span class="meta-label">Areas of interest</span><span class="meta-value">Networks · RF · AI</span></div>
-<div><span class="meta-label">Approach</span><span class="meta-value">Engineering through building</span></div>
+<div><span class="meta-label">Education</span><span class="meta-value">B.Sc. · Communication Engineering</span></div>
+<div><span class="meta-label">University</span><span class="meta-value">Sulaymaniyah Polytechnic University</span></div>
+<div><span class="meta-label">Focus</span><span class="meta-value">Networks · RF · AI</span></div>
+<div><span class="meta-label">Latest experience</span><span class="meta-value">SOC Intern · Asiacell · 2026</span></div>
 </div>
 </section>
 
@@ -117,35 +177,35 @@ h3 { color:#20384d; font-size:23px; line-height:1.2; letter-spacing:-.045em; mar
 
 <!-- AntDesigner -->
 <article class="project featured">
-<div class="project-art"><img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=80" alt="AntDesigner AI Antenna Platform Simulation"></div>
+<div class="project-art"><img src="assets/projects/antdesigner-1365.jpg" srcset="assets/projects/antdesigner-800.jpg 800w, assets/projects/antdesigner-1365.jpg 1365w" sizes="(max-width: 800px) calc(100vw - 48px), 580px" alt="AntDesigner: microstrip patch antenna with AI-predicted patch length and width" width="1365" height="768" decoding="async"></div>
 <div class="project-body">
 <div>
 <div class="project-top"><span class="project-type">Graduation project · AI / RF</span><span class="project-num">01</span></div>
 <h3>AntDesigner</h3>
-<p>Built an AI microstrip patch antenna design platform, trained on 6,048 CST simulations, that generates antenna dimensions and predicts performance.</p>
-<div class="tags"><span class="tag">Antenna design</span><span class="tag">Deep learning</span><span class="tag">CST</span></div>
+<p>An AI microstrip patch antenna design platform trained on 6,048 CST simulations. It designs an antenna in about 3 seconds with 94.76% accuracy — instead of hours of manual simulation work — and predicts its performance.</p>
+<div class="tags"><span class="tag">Antenna design</span><span class="tag">Deep learning</span><span class="tag">CST</span><span class="tag">94.76% accuracy</span><span class="tag">~3 s per design</span></div>
 </div>
-<a class="project-footer-link" href="https://karanawzad.tech/AntDesigner/" target="_blank" rel="noopener">View live project ↗</a>
+<a class="project-footer-link" href="https://karanawzad.tech/AntDesigner/" target="_blank" rel="noopener noreferrer" aria-label="View AntDesigner live project (opens in a new tab)">View live project <span aria-hidden="true">↗</span></a>
 </div>
 </article>
 
 <!-- SuliNOC -->
 <article class="project">
-<div class="project-art"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="SuliNOC AI Network Operations Center Dashboard"></div>
+<div class="project-art"><img src="assets/projects/sulinoc-1365.jpg" srcset="assets/projects/sulinoc-800.jpg 800w, assets/projects/sulinoc-1365.jpg 1365w" sizes="(max-width: 800px) calc(100vw - 48px), 570px" alt="SuliNOC network operations center dashboards overlooking Sulaymaniyah" width="1365" height="768" loading="lazy" decoding="async"></div>
 <div class="project-body">
 <div>
 <div class="project-top"><span class="project-type">Network monitoring</span><span class="project-num">02</span></div>
 <h3>SuliNOC</h3>
-<p>Developed an AI-powered LTE network operations center with two agents: one predicts site failures ~60 minutes in advance, the other diagnoses outages and their likely causes.</p>
+<p>A live LTE network operations center with two AI agents: one predicts site failures ~60 minutes in advance, the other diagnoses outages and their likely causes.</p>
 <div class="tags"><span class="tag">LTE networks</span><span class="tag">Failure prediction</span><span class="tag">AI agents</span></div>
 </div>
-<a class="project-footer-link" href="https://karanawzad.tech/SuliNOC/" target="_blank" rel="noopener">View live project ↗</a>
+<a class="project-footer-link" href="https://karanawzad.tech/SuliNOC/" target="_blank" rel="noopener noreferrer" aria-label="View SuliNOC live project (opens in a new tab)">View live project <span aria-hidden="true">↗</span></a>
 </div>
 </article>
 
 <!-- Tower Studio -->
 <article class="project">
-<div class="project-art"><img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=800&q=80" alt="Tower Studio Telecommunication Tower Infrastructure"></div>
+<div class="project-art"><img src="assets/projects/tower-studio-1365.jpg" srcset="assets/projects/tower-studio-800.jpg 800w, assets/projects/tower-studio-1365.jpg 1365w" sizes="(max-width: 800px) calc(100vw - 48px), 570px" alt="Tower Studio: telecom tower with antennas, microwave dishes, and site power equipment" width="1365" height="768" loading="lazy" decoding="async"></div>
 <div class="project-body">
 <div>
 <div class="project-top"><span class="project-type">Telecom planning studio</span><span class="project-num">03</span></div>
@@ -153,35 +213,35 @@ h3 { color:#20384d; font-size:23px; line-height:1.2; letter-spacing:-.045em; mar
 <p>Designed an interactive tower engineering platform covering configurations, equipment, power systems, microwave links, and vendor-specific infrastructure.</p>
 <div class="tags"><span class="tag">Site planning</span><span class="tag">Tower configuration</span><span class="tag">Infrastructure</span></div>
 </div>
-<a class="project-footer-link" href="https://karanawzad.tech/Tower-Studio/" target="_blank" rel="noopener">View live project ↗</a>
+<a class="project-footer-link" href="https://karanawzad.tech/Tower-Studio/" target="_blank" rel="noopener noreferrer" aria-label="View Tower Studio live project (opens in a new tab)">View live project <span aria-hidden="true">↗</span></a>
 </div>
 </article>
 
 <!-- FiberLAB -->
 <article class="project">
-<div class="project-art"><img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80" alt="FiberLAB FTTH Optical Network Design"></div>
+<div class="project-art"><img src="assets/projects/fiberlab-1365.jpg" srcset="assets/projects/fiberlab-800.jpg 800w, assets/projects/fiberlab-1365.jpg 1365w" sizes="(max-width: 800px) calc(100vw - 48px), 570px" alt="FiberLAB FTTH network running from the central office through splitters to homes" width="1365" height="768" loading="lazy" decoding="async"></div>
 <div class="project-body">
 <div>
 <div class="project-top"><span class="project-type">Fiber optic engineering</span><span class="project-num">04</span></div>
 <h3>FiberLAB</h3>
-<p>Created an interactive FTTH design and training environment with optical calculations and fault-finding practice.</p>
+<p>An interactive tool for designing a fiber internet network — from the central equipment to the customer’s home — with optical calculations and virtual test tools for practicing fault finding.</p>
 <div class="tags"><span class="tag">FTTH</span><span class="tag">OLT / ONU</span><span class="tag">Link budget</span><span class="tag">Optical loss</span></div>
 </div>
-<a class="project-footer-link" href="https://karanawzad.tech/FiberLAB/" target="_blank" rel="noopener">View live project ↗</a>
+<a class="project-footer-link" href="https://karanawzad.tech/FiberLAB/" target="_blank" rel="noopener noreferrer" aria-label="View FiberLAB live project (opens in a new tab)">View live project <span aria-hidden="true">↗</span></a>
 </div>
 </article>
 
-<!-- KurdLine -->
+<!-- KurdLine (portrait map: shown whole over a blurred copy of itself) -->
 <article class="project">
-<div class="project-art"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" alt="KurdLine 5G and Satellite Network Planning"></div>
+<div class="project-art portrait" style="--art:url('assets/projects/kurdline-800.jpg')"><img src="assets/projects/kurdline-976.jpg" srcset="assets/projects/kurdline-800.jpg 800w, assets/projects/kurdline-976.jpg 976w" sizes="(max-width: 800px) calc(100vw - 48px), 300px" alt="KurdLine map of Kurdistan with fiber routes, 5G cell nodes, and satellite links" width="976" height="1076" loading="lazy" decoding="async"></div>
 <div class="project-body">
 <div>
-<div class="project-top"><span class="project-type">Telecom concept</span><span class="project-num">05</span></div>
+<div class="project-top"><span class="project-type">Network planning · Concept</span><span class="project-num">05</span></div>
 <h3>KurdLine</h3>
-<p>Conceptualized a network planning platform integrating fiber-optic, microwave, satellite, and 5G technologies.</p>
-<div class="tags"><span class="tag">Telecom</span><span class="tag">Visual identity</span><span class="tag">5G & Satellite</span></div>
+<p>A planning platform that combines fiber, microwave links, satellites, and 5G to keep Kurdistan connected across difficult terrain.</p>
+<div class="tags"><span class="tag">Telecom</span><span class="tag">Concept design</span><span class="tag">5G & Satellite</span></div>
 </div>
-<a class="project-footer-link" href="https://karanawzad.tech/KurdLine/" target="_blank" rel="noopener">View live project ↗</a>
+<a class="project-footer-link" href="https://karanawzad.tech/KurdLine/" target="_blank" rel="noopener noreferrer" aria-label="View KurdLine live project (opens in a new tab)">View live project <span aria-hidden="true">↗</span></a>
 </div>
 </article>
 
@@ -191,52 +251,80 @@ h3 { color:#20384d; font-size:23px; line-height:1.2; letter-spacing:-.045em; mar
 <div class="skills-panel">
 <div class="skill-group"><h3>Telecom & networks</h3><p>LTE networks<br>RF and antenna design<br>Fiber optic networks<br>FTTH fundamentals</p></div>
 <div class="skill-group"><h3>AI & machine learning</h3><p>Machine learning<br>Deep learning<br>TensorFlow / Keras<br>AI-assisted workflows</p></div>
-<div class="skill-group"><h3>Development</h3><p>Python<br>HTML, CSS & JavaScript<br>MATLAB<br>Git & GitHub</p></div>
-<div class="skill-group"><h3>Engineering tools</h3><p>CST Studio Suite<br>Network monitoring concepts<br>Simulation and analysis<br>Technical problem-solving</p></div>
+<div class="skill-group"><h3>Development</h3><p>Python · Pandas · NumPy<br>HTML, CSS & JavaScript<br>MATLAB<br>Git & GitHub</p></div>
+<div class="skill-group"><h3>Engineering tools</h3><p>CST Studio Suite<br>AutoCAD<br>Network monitoring<br>MS Office</p></div>
+<div class="skill-group"><h3>Languages</h3><p>Kurdish — Native<br>English — Fluent<br>Arabic — Advanced comprehension, Intermediate speaking</p></div>
 </div></div></section>
 
-<section class="section" id="experience"><div class="wrap"><div class="section-head"><div><div class="section-kicker">Background / 03</div><h2>Experience & education</h2></div><p class="section-intro">A foundation in telecom engineering, supported by field exposure and practical training.</p></div>
+<section class="section" id="experience"><div class="wrap"><div class="section-head"><div><div class="section-kicker">Background / 03</div><h2>Experience & education</h2></div><p class="section-intro">A foundation in communication engineering, backed by hands-on telecom operations, international training, and volunteering.</p></div>
 <div class="timeline-grid">
 <div>
 <div class="column-title">Industry exposure</div>
-<div class="timeline-item"><div class="timeline-date">July 1 — August 31, 2025</div><h3>Halabja Group Telecom Services (HTS)</h3><p>Summer Internship Program focusing on telecommunications, maintenance, configuration, installation, and renewable energy applications.</p></div>
-<div class="timeline-item"><div class="timeline-date">Training</div><h3>Asiacell Telecom</h3><p>Participated in a professional two-day training session.</p></div>
+<div class="timeline-item"><div class="timeline-date">2026 · 2 months</div><h3>Asiacell Telecom, SOC Intern</h3><p>Internship within Asiacell's SOC, gaining hands-on exposure to live network operations at one of Iraq's largest mobile operators.</p></div>
+<div class="timeline-item"><div class="timeline-date">July 1 — August 31, 2025</div><h3>Halabja Group Telecom Services (HTS), Telecom Engineering Intern</h3><p>Summer Internship Program focusing on telecommunications, maintenance, configuration, and installation.</p><a class="cert-link" href="/Kara_Nawzad_Hassan_Certificate.pdf" target="_blank" rel="noopener noreferrer" aria-label="View HTS Summer Internship certificate (opens in a new tab)">View certificate <span aria-hidden="true">↗</span></a></div>
+<div class="column-title spaced">Training</div>
+<div class="timeline-item"><div class="timeline-date">Aug 25 – Sep 5, 2025</div><h3>DTI Summer School 2025 · FH Münster, Germany</h3><p>Two-week international summer school covering robotics, AI, VR, coding, 3D printing and prototyping, plus sustainability and business (4.5 ECTS).</p></div>
 </div>
 <div>
 <div class="column-title">Education</div>
-<div class="timeline-item"><div class="timeline-date">2022 — 2026</div><h3>Sulaimani Polytechnic University</h3><p>Bachelor’s degree in Telecom Engineering.</p></div>
+<div class="timeline-item"><div class="timeline-date">2022 — 2026</div><h3>Bachelor’s degree in Communication Engineering</h3><p>Technical College of Engineering, Sulaymaniyah Polytechnic University</p></div>
+<div class="column-title spaced">Volunteering</div>
+<div class="timeline-item"><div class="timeline-date">2024 — 2026</div><h3>Volunteer · Career Development Center (CDC)</h3><p>Helped organize career programs, workshops, and networking events connecting Sulaymaniyah Polytechnic University students with the job market.</p></div>
+<div class="timeline-item"><div class="timeline-date">2025 — 2026</div><h3>Administration Staff · Rowad Leadership Course</h3><p>Managed logistics and coordinated schedules and communication between students and instructors.</p></div>
 </div>
 </div></div></section>
 
-<section class="section" id="credentials"><div class="wrap"><div class="section-head"><div><div class="section-kicker">Learning / 04</div><h2>Courses & credentials</h2></div><p class="section-intro">Selected technical learning across programming, AI, and telecommunications, ordered as requested.</p></div>
+<section class="section" id="credentials"><div class="wrap"><div class="section-head"><div><div class="section-kicker">Learning / 04</div><h2>Courses & credentials</h2></div><p class="section-intro">Selected technical learning across programming, AI, and telecommunications.</p></div>
 <div class="cert-grid">
 <article class="cert">
-<div><small>International course</small><h3>DTI Summer School 2025</h3><p>FH Münster, Germany (4.5 ECTS).</p></div>
+<div><small>International course</small><h3>DTI Summer School 2025 · FH Münster, Germany</h3><p>Two-week international summer school · 4.5 ECTS · Aug 25 – Sep 5, 2025</p></div>
+<a class="cert-link" data-cert-url="CERT_DTI_URL" target="_blank" rel="noopener noreferrer" aria-label="View DTI Summer School 2025 certificate (opens in a new tab)" hidden>View certificate <span aria-hidden="true">↗</span></a>
 </article>
 <article class="cert">
-<div><small>Programming</small><h3>CS50’s Introduction to Programming with Python</h3><p>Harvard CS50</p></div>
-<a class="cert-link" href="https://certificates.cs50.io/5e569b79-325c-4d51-a35d-5f01c43520d1.pdf?size=letter" target="_blank" rel="noopener">View certificate ↗</a>
+<div><small>Programming</small><h3>CS50’s Introduction to Programming with Python</h3><p>Harvard University / edX</p></div>
+<a class="cert-link" href="https://certificates.cs50.io/5e569b79-325c-4d51-a35d-5f01c43520d1.pdf?size=letter" target="_blank" rel="noopener noreferrer" aria-label="View CS50 Introduction to Programming with Python certificate (opens in a new tab)">View certificate <span aria-hidden="true">↗</span></a>
 </article>
 <article class="cert">
-<div><small>Artificial intelligence</small><h3>CS50’s Introduction to Artificial Intelligence with Python</h3><p>Harvard CS50</p></div>
-<a class="cert-link" href="https://certificates.cs50.io/88ebdd04-6dc3-4eec-80c4-0f721edec8bf.pdf?size=letter" target="_blank" rel="noopener">View certificate ↗</a>
+<div><small>Artificial intelligence</small><h3>CS50’s Introduction to Artificial Intelligence with Python</h3><p>Harvard University / edX</p></div>
+<a class="cert-link" href="https://certificates.cs50.io/88ebdd04-6dc3-4eec-80c4-0f721edec8bf.pdf?size=letter" target="_blank" rel="noopener noreferrer" aria-label="View CS50 Introduction to Artificial Intelligence with Python certificate (opens in a new tab)">View certificate <span aria-hidden="true">↗</span></a>
 </article>
 <article class="cert">
-<div><small>Cybersecurity & ICT</small><h3>Empower Women in ICT and Cybersecurity</h3><p>Sulaimani Polytechnic University & U.S. State Department</p></div>
+<div><small>Cybersecurity & ICT</small><h3>Empower Women in ICT and Cybersecurity</h3><p>18 hours · Jan 2025 · Sulaymaniyah Polytechnic University · Meridian / U.S. Department of State Exchange Alumni program</p></div>
+<a class="cert-link" data-cert-url="CERT_CYBER_URL" target="_blank" rel="noopener noreferrer" aria-label="View Empower Women in ICT and Cybersecurity certificate (opens in a new tab)" hidden>View certificate <span aria-hidden="true">↗</span></a>
 </article>
 <article class="cert">
-<div><small>Telecommunications</small><h3>ITU Academy Course Badge 1</h3><p>International Telecommunication Union</p></div>
-<a class="cert-link" href="https://credentials.academy.itu.int/e68d53be-68cb-4221-ab52-b3acab774cd5#acc.6LA37WU1" target="_blank" rel="noopener">View badge ↗</a>
+<div><small>Telecommunications</small><h3>Advanced Broadband Mapping</h3><p>ITU Academy · International Telecommunication Union · 3 hours · Oct 2026</p></div>
+<a class="cert-link" href="https://credentials.academy.itu.int/e68d53be-68cb-4221-ab52-b3acab774cd5#acc.6LA37WU1" target="_blank" rel="noopener noreferrer" aria-label="View Advanced Broadband Mapping badge (opens in a new tab)">View badge <span aria-hidden="true">↗</span></a>
 </article>
 <article class="cert">
-<div><small>Telecommunications</small><h3>ITU Academy Course Badge 2</h3><p>International Telecommunication Union</p></div>
-<a class="cert-link" href="https://credentials.academy.itu.int/1826b94c-1a03-492c-ab75-b336aa6e2a3d#acc.IpQBEwst" target="_blank" rel="noopener">View badge ↗</a>
+<div><small>Telecommunications</small><h3>Wireless Infrastructure Deployment and Governance</h3><p>ITU Academy · International Telecommunication Union · 20 hours · Oct 2026</p></div>
+<a class="cert-link" href="https://credentials.academy.itu.int/1826b94c-1a03-492c-ab75-b336aa6e2a3d#acc.IpQBEwst" target="_blank" rel="noopener noreferrer" aria-label="View Wireless Infrastructure Deployment and Governance badge (opens in a new tab)">View badge <span aria-hidden="true">↗</span></a>
 </article>
 </div></div></section>
 
-<section class="contact" id="contact"><div class="wrap contact-inner"><div><div class="section-kicker">Let’s connect / 05</div><h2>Have a role or project in mind?</h2><p>I’d be glad to talk about telecom, network engineering, and AI-related opportunities.</p></div><div class="contact-links"><a class="btn primary" href="mailto:Karanawzad01@gmail.com">Email me ↗</a><a class="btn secondary" href="https://github.com/kara-nawzad" target="_blank" rel="noopener">GitHub ↗</a></div></div></section>
+<section class="contact" id="contact"><div class="wrap contact-inner"><div><div class="section-kicker">Let’s connect / 05</div><h2>Have a role or project in mind?</h2><p>I’d be glad to talk about telecom, network engineering, and AI-related opportunities.</p><p class="contact-email-line">Email: <a class="contact-email" href="mailto:karanawzad01@gmail.com">karanawzad01@gmail.com</a></p></div><div class="contact-links"><a class="btn primary" href="mailto:karanawzad01@gmail.com" aria-label="Email me at karanawzad01@gmail.com">Email me <span aria-hidden="true">↗</span></a><a class="btn secondary" href="https://www.linkedin.com/in/kara-nawzad-100958320" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile (opens in a new tab)">LinkedIn <span aria-hidden="true">↗</span></a><a class="btn secondary" href="https://github.com/kara-nawzad" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile (opens in a new tab)">GitHub <span aria-hidden="true">↗</span></a><a class="btn secondary" href="/Kara_Nawzad_Hassan_CV.pdf" download aria-label="Download CV (PDF)">Download CV <span aria-hidden="true">↓</span></a></div></div></section>
 </main>
 <footer class="wrap footer"><span>© 2026 Kara Nawzad</span><span>Telecom Engineering · Networks · AI</span></footer>
 </div>
+<script>
+/* Certificate links: show each one only when its URL constant (top of file) is non-empty. */
+(function () {
+  var urls = { CERT_DTI_URL: CERT_DTI_URL, CERT_CYBER_URL: CERT_CYBER_URL };
+  document.querySelectorAll("[data-cert-url]").forEach(function (a) {
+    var url = (urls[a.getAttribute("data-cert-url")] || "").trim();
+    if (url) { a.href = url; a.hidden = false; } else { a.remove(); }
+  });
+})();
+/* Mobile menu button */
+(function () {
+  var btn = document.querySelector(".nav-toggle"), nav = document.getElementById("site-nav");
+  if (!btn || !nav) return;
+  function setOpen(open) { nav.classList.toggle("open", open); btn.setAttribute("aria-expanded", open ? "true" : "false"); btn.textContent = open ? "Close" : "Menu"; }
+  btn.addEventListener("click", function () { setOpen(!nav.classList.contains("open")); });
+  nav.addEventListener("click", function (e) { if (e.target.closest("a")) setOpen(false); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && nav.classList.contains("open")) { setOpen(false); btn.focus(); } });
+  window.matchMedia("(min-width: 801px)").addEventListener("change", function (m) { if (m.matches) setOpen(false); });
+})();
+</script>
 </body>
 </html>
