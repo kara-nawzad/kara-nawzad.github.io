@@ -148,6 +148,199 @@ main:focus { outline:none; }
 }
 @media (max-width:520px) { .cert-grid {grid-template-columns:1fr;} .skills-panel {grid-template-columns:1fr;} .hero-meta {grid-template-columns:1fr;} }
 </style>
+<!-- ===== MOTION LAYER: paste this whole block once, right before </head> ===== -->
+<style>
+/* motion.css — additive motion layer. No existing rule, text or link is changed. */
+@keyframes mo-up { from { opacity:0; transform:translateY(16px); filter:blur(4px); } }
+.hero .eyebrow, .hero h1, .hero .lead, .hero .actions { animation:mo-up .85s cubic-bezier(.2,.7,.2,1) both; }
+.hero .eyebrow { animation-delay:.05s; } .hero h1 { animation-delay:.15s; }
+.hero .lead { animation-delay:.3s; } .hero .actions { animation-delay:.42s; }
+.hero-meta > div { animation:mo-up .8s cubic-bezier(.2,.7,.2,1) both; }
+.hero-meta > div:nth-child(1) { animation-delay:.55s; } .hero-meta > div:nth-child(2) { animation-delay:.63s; }
+.hero-meta > div:nth-child(3) { animation-delay:.71s; } .hero-meta > div:nth-child(4) { animation-delay:.79s; }
+
+/* Network drift canvas behind the hero text */
+.hero > *:not(.mo-net) { position:relative; z-index:1; }
+.mo-net { position:absolute; top:0; left:50%; width:100vw; height:100%; transform:translateX(-50%); z-index:0; pointer-events:none;
+  -webkit-mask-image:linear-gradient(#000 75%, transparent); mask-image:linear-gradient(#000 75%, transparent); }
+@keyframes mo-shine { to { background-position:-250% 0; } }
+@supports ((-webkit-background-clip:text) or (background-clip:text)) {
+  .hero h1 span { background:linear-gradient(100deg,#557f9a 35%,#9fd0e6 50%,#557f9a 65%) 0 0/250% 100%; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; animation:mo-shine 5s linear infinite; }
+}
+
+/* Scroll reveals (classes are added by motion.js, only below the fold, and removed afterwards) */
+.mo .reveal { opacity:0; transform:translateY(20px); filter:blur(3px);
+  transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1), filter .8s, color .9s;
+  transition-delay:var(--d,0ms); }
+.mo .reveal.in { opacity:1; transform:none; filter:none; }
+.mo h2.reveal:not(.in) { color:#93a6b3; }
+.mo .project.reveal .tag { opacity:0; transform:translateY(6px); transition:opacity .5s, transform .5s; transition-delay:calc(var(--d,0ms) + 300ms + var(--t,0) * 60ms); }
+.mo .project.reveal.in .tag { opacity:1; transform:none; }
+.mo .timeline-item.reveal::before { transform:scale(0); transition:transform .5s cubic-bezier(.3,1.6,.5,1); transition-delay:calc(var(--d,0ms) + 250ms); }
+.mo .timeline-item.reveal.in::before { transform:scale(1); }
+.project-art img { transition:transform .9s cubic-bezier(.2,.7,.2,1); }
+.project:hover .project-art img { transform:scale(1.035); }
+@media (prefers-reduced-motion: reduce) { .project:hover .project-art img { transform:none; } }
+.mo-safe .hero .eyebrow, .mo-safe .hero h1, .mo-safe .hero .lead, .mo-safe .hero .actions, .mo-safe .hero-meta > div { animation:none; }
+.hero h1 span { transition:opacity .9s ease, filter .9s ease; }
+.hero h1 span.mo-out { opacity:0; filter:blur(10px); transition-duration:.5s; }
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+/* motion.js — additive motion layer. Does not edit text, links or files. */
+(function () {
+  var d = document, root = d.documentElement;
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  /* 1a. Rotating title line (decode effect). Edit WORDS to change the phrases; the first one is your original text. */
+  var sp = d.querySelector(".hero h1 span"), live = true;
+  if (sp) {
+    var h1 = sp.parentNode, WORDS = [sp.textContent, "Networks, RF and AI Systems.", "LTE, Fiber and Antenna Design.", "Building Telecom Tools with AI."];
+    h1.setAttribute("aria-label", "I'm Kara Nawzad. " + WORDS[0]); sp.setAttribute("aria-hidden", "true");
+    var wi = 0;
+    var lock = function () { var cur = sp.textContent; sp.textContent = WORDS[0]; h1.style.minHeight = ""; h1.style.minHeight = h1.offsetHeight + "px"; sp.textContent = cur; };
+    var morph = function (to, done) {
+      sp.classList.add("mo-out");
+      setTimeout(function () { sp.textContent = to; sp.classList.remove("mo-out"); setTimeout(done, 900); }, 520);
+    };
+    var loop = function () {
+      setTimeout(function () {
+        if (!live || d.hidden) return loop();
+        wi = (wi + 1) % WORDS.length; morph(WORDS[wi], loop);
+      }, 3600);
+    };
+    lock(); addEventListener("resize", lock); loop();
+  }
+
+  /* 1b. Living network behind the hero: drifting nodes, data packets, radio ripples, pointer glow */
+  var hero = d.querySelector(".hero");
+  if (hero) {
+    var c = d.createElement("canvas"); c.className = "mo-net"; c.setAttribute("aria-hidden", "true");
+    hero.insertBefore(c, hero.firstChild);
+    var x = c.getContext("2d"), W = 0, H = 0, N = [], R = [], K = [], P = { x: -999, y: -999 }, raf = 0, last = 0, small = false, L = 140, rnd = Math.random;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var size = function () {
+      var b = c.getBoundingClientRect(); W = b.width; H = b.height; small = W < 700; L = small ? 105 : 140;
+      c.width = W * dpr; c.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var n = Math.max(18, Math.min(small ? 30 : 68, Math.round(W * H / 15000)));
+      while (N.length < n) {
+        var z = .55 + rnd() * .7, vx = (rnd() - .5) * .4 * z, vy = (rnd() - .5) * .4 * z, hub = N.length % 11 === 0;
+        N.push({ x: rnd() * W, y: rnd() * H, vx: vx, vy: vy, bx: vx, by: vy, z: z, r: hub ? 3.4 : (1 + rnd() * 1.4) * z, g: 0, hub: hub, t: rnd() * 200 });
+      }
+      N.length = n;
+    };
+    var ring = function (px, py, m, a) { R.push({ x: px, y: py, r: 0, m: m, a: a }); };
+    var frame = function (now) {
+      raf = 0; if (!live) return;
+      var dt = Math.min(3, (now - last) / 16.67 || 1), i, j, a, b, k; last = now;
+      x.clearRect(0, 0, W, H);
+      for (k = 0; k < 3; k++) {
+        var bx = W * (.25 + .5 * (.5 + .5 * Math.sin(now / 7000 + k * 2.1))), by = H * (.2 + .6 * (.5 + .5 * Math.cos(now / 9000 + k * 1.7))), br = Math.max(W, H) * .3;
+        var gr = x.createRadialGradient(bx, by, 0, bx, by, br);
+        gr.addColorStop(0, k === 1 ? "rgba(143,195,220,.22)" : "rgba(127,163,190,.16)"); gr.addColorStop(1, "rgba(127,163,190,0)");
+        x.fillStyle = gr; x.fillRect(bx - br, by - br, br * 2, br * 2);
+      }
+      if (P.x > -900) {
+        var pg = x.createRadialGradient(P.x, P.y, 0, P.x, P.y, 130);
+        pg.addColorStop(0, "rgba(63,167,201,.22)"); pg.addColorStop(1, "rgba(63,167,201,0)");
+        x.fillStyle = pg; x.fillRect(P.x - 130, P.y - 130, 260, 260);
+      }
+      for (i = 0; i < N.length; i++) {
+        a = N[i]; a.t += dt;
+        var dx = a.x - P.x, dy = a.y - P.y, q = dx * dx + dy * dy;
+        if (q < 16900 && q > 1) { var m = Math.sqrt(q), f = (1 - m / 130) * .9 * dt; a.x += dx / m * f; a.y += dy / m * f; }
+        a.vx += (a.bx - a.vx) * .02 * dt; a.vy += (a.by - a.vy) * .02 * dt;
+        a.x += a.vx * dt; a.y += a.vy * dt;
+        if (a.x < -10) a.x = W + 10; else if (a.x > W + 10) a.x = -10;
+        if (a.y < -10) a.y = H + 10; else if (a.y > H + 10) a.y = -10;
+        a.g = Math.max(0, a.g - .025 * dt);
+        if (a.hub && a.t > 220) { a.t = 0; ring(a.x, a.y, 150, .9); }
+      }
+      x.lineWidth = 1;
+      for (i = 0; i < N.length; i++) {
+        a = N[i];
+        for (j = i + 1; j < N.length; j++) {
+          b = N[j]; var ex = a.x - b.x, ey = a.y - b.y, s = ex * ex + ey * ey;
+          if (s < L * L) { x.strokeStyle = "rgba(85,127,154," + ((1 - Math.sqrt(s) / L) * .26).toFixed(3) + ")"; x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(b.x, b.y); x.stroke(); }
+        }
+        var px = a.x - P.x, py = a.y - P.y, ps = px * px + py * py;
+        if (ps < 28900) { x.strokeStyle = "rgba(41,90,125," + ((1 - Math.sqrt(ps) / 170) * .5).toFixed(3) + ")"; x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(P.x, P.y); x.stroke(); }
+      }
+      if (K.length < (small ? 5 : 12) && rnd() < .07 * dt) {
+        var s0 = N[(rnd() * N.length) | 0];
+        for (k = 0; k < 8; k++) { var e0 = N[(rnd() * N.length) | 0], qx = s0.x - e0.x, qy = s0.y - e0.y; if (e0 !== s0 && qx * qx + qy * qy < L * L) { K.push({ a: s0, b: e0, p: 0, v: .018 + rnd() * .02 }); break; } }
+      }
+      for (i = K.length - 1; i >= 0; i--) {
+        var p = K[i]; p.p += p.v * dt;
+        if (p.p >= 1) { p.b.g = 1; K.splice(i, 1); continue; }
+        var X = p.a.x + (p.b.x - p.a.x) * p.p, Y = p.a.y + (p.b.y - p.a.y) * p.p, t0 = Math.max(0, p.p - .2);
+        x.strokeStyle = "rgba(63,167,201,.6)"; x.lineWidth = 1.6; x.beginPath(); x.moveTo(p.a.x + (p.b.x - p.a.x) * t0, p.a.y + (p.b.y - p.a.y) * t0); x.lineTo(X, Y); x.stroke();
+        x.fillStyle = "rgba(63,167,201,.25)"; x.beginPath(); x.arc(X, Y, 5, 0, 6.283); x.fill();
+        x.fillStyle = "rgba(40,140,180,.95)"; x.beginPath(); x.arc(X, Y, 2, 0, 6.283); x.fill();
+      }
+      x.lineWidth = 1.2;
+      for (i = R.length - 1; i >= 0; i--) {
+        var o = R[i]; o.r += 1.6 * dt;
+        if (o.r >= o.m) { R.splice(i, 1); continue; }
+        x.strokeStyle = "rgba(85,127,154," + (o.a * (1 - o.r / o.m) * .4).toFixed(3) + ")"; x.beginPath(); x.arc(o.x, o.y, o.r, 0, 6.283); x.stroke();
+      }
+      for (i = 0; i < N.length; i++) {
+        a = N[i];
+        if (a.g > 0) { x.fillStyle = "rgba(63,167,201," + (a.g * .28).toFixed(3) + ")"; x.beginPath(); x.arc(a.x, a.y, a.r + 10 * a.g, 0, 6.283); x.fill(); }
+        if (a.hub) { x.strokeStyle = "rgba(41,76,103,.4)"; x.lineWidth = 1; x.beginPath(); x.arc(a.x, a.y, a.r + 4, 0, 6.283); x.stroke(); }
+        x.fillStyle = a.hub ? "rgba(41,76,103,.8)" : "rgba(85,127,154," + (.3 + a.z * .3).toFixed(2) + ")";
+        x.beginPath(); x.arc(a.x, a.y, a.r, 0, 6.283); x.fill();
+      }
+      raf = requestAnimationFrame(frame);
+    };
+    var go = function () { if (!raf && live) { last = performance.now(); raf = requestAnimationFrame(frame); } };
+    var rel = function (e) { var r = c.getBoundingClientRect(), py = e.clientY - r.top; return (py < 0 || py > r.height) ? null : { x: e.clientX - r.left, y: py }; };
+    size(); go(); addEventListener("resize", size);
+    addEventListener("pointermove", function (e) { var p = rel(e); if (p) { P.x = p.x; P.y = p.y; } else { P.x = P.y = -999; } }, { passive: true });
+    addEventListener("pointerup", function (e) { if (e.pointerType === "touch") setTimeout(function () { P.x = P.y = -999; }, 700); });
+    addEventListener("pointerdown", function (e) {
+      var p = rel(e); if (!p) return; ring(p.x, p.y, 230, 1);
+      N.forEach(function (a) { var dx = a.x - p.x, dy = a.y - p.y, q = Math.sqrt(dx * dx + dy * dy); if (q < 230) { a.g = 1; if (q > 1) { a.vx += dx / q * .9 * (1 - q / 230); a.vy += dy / q * .9 * (1 - q / 230); } } });
+    }, { passive: true });
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { live = es[0].isIntersecting && !d.hidden; go(); }).observe(hero);
+    d.addEventListener("visibilitychange", function () { live = !d.hidden; go(); });
+  }
+
+  /* 2. Scroll reveals (below-the-fold only; position check instead of IntersectionObserver so it also works inside embedded viewers) */
+  var groups = [".section-head > *", ".project", ".skill-group", ".column-title", ".timeline-item", ".cert", ".contact-inner > *"];
+  var pend = [], seen = new Map(), tick = 0;
+  var show = function (el) {
+    el.classList.add("in");
+    setTimeout(function () { el.classList.remove("reveal", "in"); }, 1500 + (parseInt(el.style.getPropertyValue("--d")) || 0));
+  };
+  var check = function () {
+    tick = 0;
+    pend = pend.filter(function (el) {
+      var r = el.getBoundingClientRect(), vh = window.innerHeight || 800;
+      if (r.top < vh * .92 && r.bottom > 0) { show(el); return false; }
+      return true;
+    });
+  };
+  var queue = function () { if (!tick) tick = requestAnimationFrame(check); };
+  groups.forEach(function (sel) {
+    d.querySelectorAll(sel).forEach(function (el) {
+      if (el.getBoundingClientRect().top < (window.innerHeight || 800) * .9) return;
+      var k = el.parentNode, n = seen.get(k) || 0; seen.set(k, n + 1);
+      el.style.setProperty("--d", Math.min(n, 5) * 80 + "ms");
+      el.classList.add("reveal"); pend.push(el);
+      el.querySelectorAll(".tag").forEach(function (t, i) { t.style.setProperty("--t", i); });
+    });
+  });
+  root.classList.add("mo");
+  addEventListener("scroll", queue, { passive: true }); addEventListener("resize", queue);
+  setTimeout(queue, 400); setTimeout(queue, 1500);
+  /* Safety net: if animations never start (hidden or throttled viewer), nothing stays invisible */
+  setTimeout(function () { root.classList.add("mo-safe"); }, 2800);
+})();
+});
+</script>
+<!-- ===== END MOTION LAYER ===== -->
+
 </head>
 <body>
 <a class="skip-link" href="#content">Skip to content</a>
