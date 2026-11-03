@@ -195,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
   /* 1a. Rotating title line (decode effect). Edit WORDS to change the phrases; the first one is your original text. */
   var sp = d.querySelector(".hero h1 span"), live = true;
   if (sp) {
-    var h1 = sp.parentNode, WORDS = [sp.textContent, "Networks, RF and AI Systems.", "LTE, Fiber and Antenna Design.", "Building Telecom Tools with AI."];
+    var h1 = sp.parentNode, WORDS = [sp.textContent, "Where telecom engineering meets AI.", "LTE monitoring, fiber planning and AI antenna design.", "AI tools for real telecom problems."];
     h1.setAttribute("aria-label", "I'm Kara Nawzad. " + WORDS[0]); sp.setAttribute("aria-hidden", "true");
     var wi = 0;
     var lock = function () { var cur = sp.textContent; sp.textContent = WORDS[0]; h1.style.minHeight = ""; h1.style.minHeight = h1.offsetHeight + "px"; sp.textContent = cur; };
@@ -353,7 +353,7 @@ document.addEventListener("DOMContentLoaded", function () {
 <main id="content" tabindex="-1">
 <section class="hero wrap">
 <div class="eyebrow">Telecom Engineer</div>
-<h1>I'm Kara Nawzad.<br><span>Telecommunications Engineer.</span></h1>
+<h1>I'm Kara Nawzad.<br><span>Communication Engineer.</span></h1>
 <p class="lead">I’m a telecom engineering graduate with hands-on exposure to telecom operations, machine-learning antenna design, and building network tools that make complex systems easy to understand and manage.</p>
 <div class="actions"><a class="btn primary" href="#work" aria-label="Explore my work: jump to projects">Explore my work <span aria-hidden="true">↗</span></a><a class="btn secondary" href="#contact">Get in touch</a><a class="btn secondary" href="/Kara_Nawzad_Hassan_CV.pdf" download aria-label="Download CV (PDF)">Download CV <span aria-hidden="true">↓</span></a></div>
 <div class="hero-meta">
