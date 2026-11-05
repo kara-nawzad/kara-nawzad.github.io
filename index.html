@@ -163,10 +163,6 @@ main:focus { outline:none; }
 .hero > *:not(.mo-net) { position:relative; z-index:1; }
 .mo-net { position:absolute; top:0; left:50%; width:100vw; height:100%; transform:translateX(-50%); z-index:0; pointer-events:none;
   -webkit-mask-image:linear-gradient(#000 75%, transparent); mask-image:linear-gradient(#000 75%, transparent); }
-@keyframes mo-shine { to { background-position:-250% 0; } }
-@supports ((-webkit-background-clip:text) or (background-clip:text)) {
-  .hero h1 span { background:linear-gradient(100deg,#557f9a 35%,#9fd0e6 50%,#557f9a 65%) 0 0/250% 100%; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; animation:mo-shine 5s linear infinite; }
-}
 
 /* Scroll reveals (classes are added by motion.js, only below the fold, and removed afterwards) */
 .mo .reveal { opacity:0; transform:translateY(20px); filter:blur(3px);
@@ -182,8 +178,8 @@ main:focus { outline:none; }
 .project:hover .project-art img { transform:scale(1.035); }
 @media (prefers-reduced-motion: reduce) { .project:hover .project-art img { transform:none; } }
 .mo-safe .hero .eyebrow, .mo-safe .hero h1, .mo-safe .hero .lead, .mo-safe .hero .actions, .mo-safe .hero-meta > div { animation:none; }
-.hero h1 span { transition:opacity .9s ease, filter .9s ease; }
-.hero h1 span.mo-out { opacity:0; filter:blur(10px); transition-duration:.5s; }
+.hero h1 span { transition:opacity 1.2s ease, filter 1.2s ease; }
+.hero h1 span.mo-out { opacity:0; filter:blur(10px); transition-duration:.9s; }
 </style>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -201,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var lock = function () { var cur = sp.textContent; sp.textContent = WORDS[0]; h1.style.minHeight = ""; h1.style.minHeight = h1.offsetHeight + "px"; sp.textContent = cur; };
     var morph = function (to, done) {
       sp.classList.add("mo-out");
-      setTimeout(function () { sp.textContent = to; sp.classList.remove("mo-out"); setTimeout(done, 900); }, 520);
+      setTimeout(function () { sp.textContent = to; sp.classList.remove("mo-out"); setTimeout(done, 1200); }, 950);
     };
     var loop = function () {
       setTimeout(function () {
@@ -212,96 +208,202 @@ document.addEventListener("DOMContentLoaded", function () {
     lock(); addEventListener("resize", lock); loop();
   }
 
-  /* 1b. Living network behind the hero: drifting nodes, data packets, radio ripples, pointer glow */
+  /* 1b. Engineering network backdrop: blueprint grid, drifting sites, rotating sector sweeps, radio waves and signal packets hopping between sites.
+     Tune the feel here: speed 0.5 = calmer, 1.5 = livelier. density 0.7 = fewer sites, 1.3 = more. */
   var hero = d.querySelector(".hero");
   if (hero) {
+    var CFG = { speed: 1, density: 1 };
     var c = d.createElement("canvas"); c.className = "mo-net"; c.setAttribute("aria-hidden", "true");
     hero.insertBefore(c, hero.firstChild);
-    var x = c.getContext("2d"), W = 0, H = 0, N = [], R = [], K = [], P = { x: -999, y: -999 }, raf = 0, last = 0, small = false, L = 140, rnd = Math.random;
+    var x = c.getContext("2d"), g = d.createElement("canvas"), gx = g.getContext("2d");
+    var W = 0, H = 0, N = [], R = [], K = [], P = { x: 0, y: 0, tx: 0, ty: 0, a: 0, on: false }, raf = 0, last = 0, small = false, cell = 135, L = 182, L2 = L * L, rnd = Math.random, TAU = 6.2832;
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var size = function () {
-      var b = c.getBoundingClientRect(); W = b.width; H = b.height; small = W < 700; L = small ? 105 : 140;
-      c.width = W * dpr; c.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
-      var n = Math.max(18, Math.min(small ? 30 : 68, Math.round(W * H / 15000)));
-      while (N.length < n) {
-        var z = .55 + rnd() * .7, vx = (rnd() - .5) * .4 * z, vy = (rnd() - .5) * .4 * z, hub = N.length % 11 === 0;
-        N.push({ x: rnd() * W, y: rnd() * H, vx: vx, vy: vy, bx: vx, by: vy, z: z, r: hub ? 3.4 : (1 + rnd() * 1.4) * z, g: 0, hub: hub, t: rnd() * 200 });
-      }
-      N.length = n;
+    var MONO = "10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+
+    /* keeps the area behind the headline quieter so the text stays easy to read */
+    var vis = function (px) {
+      if (W < 900) return .6;
+      var u = Math.min(1, Math.max(0, (px - W * .3) / (W * .45)));
+      return .4 + .6 * u * u * (3 - 2 * u);
     };
-    var ring = function (px, py, m, a) { R.push({ x: px, y: py, r: 0, m: m, a: a }); };
+
+    /* blueprint grid, drawn once and reused every frame */
+    var drawGrid = function () {
+      g.width = c.width; g.height = c.height; gx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var s = 48, i, j;
+      gx.lineWidth = 1; gx.strokeStyle = "rgba(85,127,154,.07)"; gx.beginPath();
+      for (i = 0; i <= W; i += s) { gx.moveTo(i + .5, 0); gx.lineTo(i + .5, H); }
+      for (j = 0; j <= H; j += s) { gx.moveTo(0, j + .5); gx.lineTo(W, j + .5); }
+      gx.stroke();
+      gx.strokeStyle = "rgba(41,76,103,.24)"; gx.beginPath();
+      for (i = 0; i <= W; i += s * 4) for (j = 0; j <= H; j += s * 4) { gx.moveTo(i - 4, j + .5); gx.lineTo(i + 5, j + .5); gx.moveTo(i + .5, j - 4); gx.lineTo(i + .5, j + 5); }
+      gx.stroke();
+    };
+
+    /* sites on a jittered grid so the network is evenly spread; every 9th site is a tower hub */
+    var build = function () {
+      var cols = Math.max(2, Math.ceil(W / cell)), rows = Math.max(2, Math.ceil(H / cell)), i, j, n, hubs = 0;
+      N = []; K = []; R = [];
+      for (j = 0; j < rows; j++) for (i = 0; i < cols; i++) {
+        N.push({ hx: Math.min(W - 6, Math.max(6, (i + .5 + (rnd() - .5) * .75) * cell)), hy: Math.min(H - 6, Math.max(6, (j + .5 + (rnd() - .5) * .75) * cell)),
+          ax: 5 + rnd() * 13, ay: 5 + rnd() * 13, fx: .00012 + rnd() * .00012, fy: .00012 + rnd() * .00012, p1: rnd() * TAU, p2: rnd() * TAU,
+          r: 1.1 + rnd() * 1.1, sq: rnd() < .28, g: 0, hub: false, x: 0, y: 0 });
+      }
+      for (i = 4; i < N.length; i += 9) {
+        n = N[i]; hubs++;
+        n.hub = true; n.r = 3.4; n.s0 = rnd() * TAU; n.sv = (rnd() < .5 ? -1 : 1) * (.00007 + rnd() * .00005);
+        n.te = rnd() * 5000; n.vt = rnd() * 3000; n.val = -(84 + ((rnd() * 12) | 0)); n.lb = "eNB-" + (hubs < 10 ? "0" : "") + hubs;
+      }
+    };
+
+    var size = function () {
+      var b = c.getBoundingClientRect(), nw = b.width, nh = b.height;
+      if (nw === W && nh === H) return;
+      W = nw; H = nh; small = W < 700; cell = (small ? 130 : 135) / Math.sqrt(CFG.density); L = cell * 1.35; L2 = L * L;
+      c.width = Math.round(W * dpr); c.height = Math.round(H * dpr); x.setTransform(dpr, 0, 0, dpr, 0, 0);
+      drawGrid(); build();
+    };
+
+    /* a random neighbouring site within radio range */
+    var nb = function (a, ex) {
+      var pool = [], q, e, dx, dy;
+      for (q = 0; q < N.length; q++) { e = N[q]; if (e === a || e === ex) continue; dx = a.x - e.x; dy = a.y - e.y; if (dx * dx + dy * dy < L2) pool.push(e); }
+      return pool.length ? pool[(rnd() * pool.length) | 0] : null;
+    };
+
     var frame = function (now) {
       raf = 0; if (!live) return;
-      var dt = Math.min(3, (now - last) / 16.67 || 1), i, j, a, b, k; last = now;
-      x.clearRect(0, 0, W, H);
-      for (k = 0; k < 3; k++) {
-        var bx = W * (.25 + .5 * (.5 + .5 * Math.sin(now / 7000 + k * 2.1))), by = H * (.2 + .6 * (.5 + .5 * Math.cos(now / 9000 + k * 1.7))), br = Math.max(W, H) * .3;
-        var gr = x.createRadialGradient(bx, by, 0, bx, by, br);
-        gr.addColorStop(0, k === 1 ? "rgba(143,195,220,.22)" : "rgba(127,163,190,.16)"); gr.addColorStop(1, "rgba(127,163,190,0)");
+      var dt = Math.min(64, now - last || 16), T = now * CFG.speed, i, j, k, a, b, o, q, dx, dy, s, f, r, gr, ke;
+      last = now;
+      x.globalAlpha = 1; x.clearRect(0, 0, W, H);
+
+      /* ambient light, drifting very slowly */
+      for (k = 0; k < 2; k++) {
+        var bx = W * (.3 + .5 * (.5 + .5 * Math.sin(T / 38000 + k * 2.4))), by = H * (.25 + .5 * (.5 + .5 * Math.cos(T / 47000 + k * 1.9))), br = Math.max(W, H) * .32;
+        gr = x.createRadialGradient(bx, by, 0, bx, by, br);
+        gr.addColorStop(0, k ? "rgba(143,195,220,.10)" : "rgba(127,163,190,.08)"); gr.addColorStop(1, "rgba(127,163,190,0)");
         x.fillStyle = gr; x.fillRect(bx - br, by - br, br * 2, br * 2);
       }
-      if (P.x > -900) {
-        var pg = x.createRadialGradient(P.x, P.y, 0, P.x, P.y, 130);
-        pg.addColorStop(0, "rgba(63,167,201,.22)"); pg.addColorStop(1, "rgba(63,167,201,0)");
-        x.fillStyle = pg; x.fillRect(P.x - 130, P.y - 130, 260, 260);
-      }
+      x.drawImage(g, 0, 0, W, H);
+
+      ke = Math.min(1, dt * .01);
+      P.x += (P.tx - P.x) * ke; P.y += (P.ty - P.y) * ke; P.a += ((P.on ? 1 : 0) - P.a) * Math.min(1, dt * .006);
+
+      /* every site orbits its home position on a slow, smooth path */
       for (i = 0; i < N.length; i++) {
-        a = N[i]; a.t += dt;
-        var dx = a.x - P.x, dy = a.y - P.y, q = dx * dx + dy * dy;
-        if (q < 16900 && q > 1) { var m = Math.sqrt(q), f = (1 - m / 130) * .9 * dt; a.x += dx / m * f; a.y += dy / m * f; }
-        a.vx += (a.bx - a.vx) * .02 * dt; a.vy += (a.by - a.vy) * .02 * dt;
-        a.x += a.vx * dt; a.y += a.vy * dt;
-        if (a.x < -10) a.x = W + 10; else if (a.x > W + 10) a.x = -10;
-        if (a.y < -10) a.y = H + 10; else if (a.y > H + 10) a.y = -10;
-        a.g = Math.max(0, a.g - .025 * dt);
-        if (a.hub && a.t > 220) { a.t = 0; ring(a.x, a.y, 150, .9); }
+        a = N[i];
+        a.x = a.hx + Math.sin(T * a.fx + a.p1) * a.ax; a.y = a.hy + Math.cos(T * a.fy + a.p2) * a.ay;
+        if (a.g > 0) a.g = Math.max(0, a.g - dt * .0011);
+        if (a.hub) {
+          a.te -= dt; if (a.te <= 0) { a.te = 5200 + rnd() * 2600; R.push({ n: a, t0: now, dur: 7000, max: small ? 150 : 200, a: .55, lit: .5 }); }
+          a.vt -= dt; if (a.vt <= 0) { a.vt = 3500 + rnd() * 3000; a.val = Math.max(-104, Math.min(-78, a.val + ((rnd() * 3) | 0) - 1)); }
+        }
       }
+
+      /* tower sector coverage, slowly rotating */
+      for (i = 0; i < N.length; i++) {
+        a = N[i]; if (!a.hub) continue;
+        var ang = a.s0 + T * a.sv, sr = small ? 140 : 200;
+        gr = x.createRadialGradient(a.x, a.y, 0, a.x, a.y, sr);
+        gr.addColorStop(0, "rgba(63,167,201,.15)"); gr.addColorStop(1, "rgba(63,167,201,0)");
+        x.globalAlpha = vis(a.x); x.fillStyle = gr;
+        x.beginPath(); x.moveTo(a.x, a.y); x.arc(a.x, a.y, sr, ang - .5, ang + .5); x.closePath(); x.fill();
+      }
+
+      /* links between sites (and a soft link to the cursor) */
       x.lineWidth = 1;
       for (i = 0; i < N.length; i++) {
         a = N[i];
         for (j = i + 1; j < N.length; j++) {
-          b = N[j]; var ex = a.x - b.x, ey = a.y - b.y, s = ex * ex + ey * ey;
-          if (s < L * L) { x.strokeStyle = "rgba(85,127,154," + ((1 - Math.sqrt(s) / L) * .26).toFixed(3) + ")"; x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(b.x, b.y); x.stroke(); }
+          b = N[j]; dx = a.x - b.x; dy = a.y - b.y; s = dx * dx + dy * dy;
+          if (s < L2) {
+            f = 1 - Math.sqrt(s) / L; x.globalAlpha = vis((a.x + b.x) / 2);
+            x.strokeStyle = "rgba(85,127,154," + (f * (a.hub || b.hub ? .36 : .24)).toFixed(3) + ")";
+            x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(b.x, b.y); x.stroke();
+          }
         }
-        var px = a.x - P.x, py = a.y - P.y, ps = px * px + py * py;
-        if (ps < 28900) { x.strokeStyle = "rgba(41,90,125," + ((1 - Math.sqrt(ps) / 170) * .5).toFixed(3) + ")"; x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(P.x, P.y); x.stroke(); }
+        if (P.a > .02) {
+          dx = a.x - P.x; dy = a.y - P.y; s = dx * dx + dy * dy;
+          if (s < 36100) { x.globalAlpha = 1; x.strokeStyle = "rgba(41,90,125," + ((1 - Math.sqrt(s) / 190) * .38 * P.a).toFixed(3) + ")"; x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(P.x, P.y); x.stroke(); }
+        }
       }
-      if (K.length < (small ? 5 : 12) && rnd() < .07 * dt) {
-        var s0 = N[(rnd() * N.length) | 0];
-        for (k = 0; k < 8; k++) { var e0 = N[(rnd() * N.length) | 0], qx = s0.x - e0.x, qy = s0.y - e0.y; if (e0 !== s0 && qx * qx + qy * qy < L * L) { K.push({ a: s0, b: e0, p: 0, v: .018 + rnd() * .02 }); break; } }
+      if (P.a > .02) {
+        x.globalAlpha = 1; gr = x.createRadialGradient(P.x, P.y, 0, P.x, P.y, 120);
+        gr.addColorStop(0, "rgba(63,167,201," + (.14 * P.a).toFixed(3) + ")"); gr.addColorStop(1, "rgba(63,167,201,0)");
+        x.fillStyle = gr; x.fillRect(P.x - 120, P.y - 120, 240, 240);
+      }
+
+      /* radio waves; sites light up softly as a wave passes over them */
+      for (i = R.length - 1; i >= 0; i--) {
+        o = R[i]; f = (now - o.t0) / o.dur;
+        if (f >= 1) { R.splice(i, 1); continue; }
+        var ox = o.n ? o.n.x : o.x, oy = o.n ? o.n.y : o.y;
+        r = o.max * (1 - Math.pow(1 - f, 2));
+        x.globalAlpha = vis(ox); x.lineWidth = 1.2;
+        x.strokeStyle = "rgba(63,167,201," + (o.a * Math.pow(1 - f, 1.6) * .5).toFixed(3) + ")";
+        x.beginPath(); x.arc(ox, oy, r, 0, TAU); x.stroke();
+        if (o.lit) for (j = 0; j < N.length; j++) {
+          b = N[j]; if (b === o.n) continue; dx = b.x - ox; dy = b.y - oy;
+          if (Math.abs(Math.sqrt(dx * dx + dy * dy) - r) < 12) b.g = Math.max(b.g, o.lit * (1 - f));
+        }
+      }
+
+      /* signal packets hop from site to site along the links */
+      if (K.length < (small ? 3 : 7) && rnd() < dt * .0006) {
+        a = N[(rnd() * N.length) | 0]; b = a && nb(a, null);
+        if (b) K.push({ a: a, b: b, p: 0, v: .05 + rnd() * .03, h: 0, m: 2 + ((rnd() * 3) | 0) });
       }
       for (i = K.length - 1; i >= 0; i--) {
-        var p = K[i]; p.p += p.v * dt;
-        if (p.p >= 1) { p.b.g = 1; K.splice(i, 1); continue; }
-        var X = p.a.x + (p.b.x - p.a.x) * p.p, Y = p.a.y + (p.b.y - p.a.y) * p.p, t0 = Math.max(0, p.p - .2);
-        x.strokeStyle = "rgba(63,167,201,.6)"; x.lineWidth = 1.6; x.beginPath(); x.moveTo(p.a.x + (p.b.x - p.a.x) * t0, p.a.y + (p.b.y - p.a.y) * t0); x.lineTo(X, Y); x.stroke();
-        x.fillStyle = "rgba(63,167,201,.25)"; x.beginPath(); x.arc(X, Y, 5, 0, 6.283); x.fill();
-        x.fillStyle = "rgba(40,140,180,.95)"; x.beginPath(); x.arc(X, Y, 2, 0, 6.283); x.fill();
+        q = K[i]; dx = q.b.x - q.a.x; dy = q.b.y - q.a.y; s = Math.sqrt(dx * dx + dy * dy) || 1;
+        q.p += q.v * dt / s;
+        if (q.p >= 1) {
+          q.b.g = 1; R.push({ n: q.b, t0: now, dur: 1700, max: 36, a: .9 });
+          q.h++; var nx = q.h < q.m ? nb(q.b, q.a) : null;
+          if (!nx) { K.splice(i, 1); continue; }
+          q.a = q.b; q.b = nx; q.p = 0; continue;
+        }
+        var fa = Math.min(1, (q.h + q.p) * 3); if (q.h === q.m - 1) fa *= 1 - q.p * .85;
+        var X = q.a.x + dx * q.p, Y = q.a.y + dy * q.p, t0 = Math.max(0, q.p - 38 / s);
+        x.globalAlpha = vis(X) * fa;
+        x.beginPath(); x.moveTo(q.a.x + dx * t0, q.a.y + dy * t0); x.lineTo(X, Y);
+        x.strokeStyle = "rgba(63,167,201,.28)"; x.lineWidth = 3.2; x.stroke();
+        x.strokeStyle = "rgba(40,140,180,.85)"; x.lineWidth = 1.3; x.stroke();
+        x.fillStyle = "rgba(63,167,201,.2)"; x.beginPath(); x.arc(X, Y, 6, 0, TAU); x.fill();
+        x.fillStyle = "rgba(40,140,180,.95)"; x.beginPath(); x.arc(X, Y, 2, 0, TAU); x.fill();
       }
-      x.lineWidth = 1.2;
-      for (i = R.length - 1; i >= 0; i--) {
-        var o = R[i]; o.r += 1.6 * dt;
-        if (o.r >= o.m) { R.splice(i, 1); continue; }
-        x.strokeStyle = "rgba(85,127,154," + (o.a * (1 - o.r / o.m) * .4).toFixed(3) + ")"; x.beginPath(); x.arc(o.x, o.y, o.r, 0, 6.283); x.stroke();
-      }
+
+      /* the sites themselves */
+      x.font = MONO;
       for (i = 0; i < N.length; i++) {
-        a = N[i];
-        if (a.g > 0) { x.fillStyle = "rgba(63,167,201," + (a.g * .28).toFixed(3) + ")"; x.beginPath(); x.arc(a.x, a.y, a.r + 10 * a.g, 0, 6.283); x.fill(); }
-        if (a.hub) { x.strokeStyle = "rgba(41,76,103,.4)"; x.lineWidth = 1; x.beginPath(); x.arc(a.x, a.y, a.r + 4, 0, 6.283); x.stroke(); }
-        x.fillStyle = a.hub ? "rgba(41,76,103,.8)" : "rgba(85,127,154," + (.3 + a.z * .3).toFixed(2) + ")";
-        x.beginPath(); x.arc(a.x, a.y, a.r, 0, 6.283); x.fill();
+        a = N[i]; x.globalAlpha = vis(a.x);
+        if (a.g > 0) { x.fillStyle = "rgba(63,167,201," + (a.g * .26).toFixed(3) + ")"; x.beginPath(); x.arc(a.x, a.y, a.r + 9 * a.g, 0, TAU); x.fill(); }
+        if (a.hub) {
+          x.lineWidth = 1; x.strokeStyle = "rgba(41,76,103,.5)"; x.setLineDash([3, 6]); x.lineDashOffset = -T * .008;
+          x.beginPath(); x.arc(a.x, a.y, a.r + 8, 0, TAU); x.stroke(); x.setLineDash([]);
+          x.strokeStyle = "rgba(41,76,103,.38)"; x.beginPath(); x.arc(a.x, a.y, a.r + 3.5, 0, TAU); x.stroke();
+          x.fillStyle = "rgba(41,76,103,.85)"; x.beginPath(); x.arc(a.x, a.y, a.r, 0, TAU); x.fill();
+          if (!small) {
+            x.fillStyle = "rgba(41,76,103,.66)"; x.fillText(a.lb, a.x + 16, a.y - 3);
+            x.fillStyle = "rgba(63,120,150,.78)"; x.fillText("RSRP " + a.val + " dBm", a.x + 16, a.y + 10);
+          }
+        } else if (a.sq) {
+          x.fillStyle = "rgba(85,127,154,.6)"; x.fillRect(a.x - 1.9, a.y - 1.9, 3.8, 3.8);
+        } else {
+          x.fillStyle = "rgba(85,127,154,.62)"; x.beginPath(); x.arc(a.x, a.y, a.r, 0, TAU); x.fill();
+        }
       }
+      x.globalAlpha = 1;
       raf = requestAnimationFrame(frame);
     };
+
     var go = function () { if (!raf && live) { last = performance.now(); raf = requestAnimationFrame(frame); } };
-    var rel = function (e) { var r = c.getBoundingClientRect(), py = e.clientY - r.top; return (py < 0 || py > r.height) ? null : { x: e.clientX - r.left, y: py }; };
+    var rel = function (e) { var r = c.getBoundingClientRect(), py = e.clientY - r.top, px = e.clientX - r.left; return (py < 0 || py > r.height || px < 0 || px > r.width) ? null : { x: px, y: py }; };
     size(); go(); addEventListener("resize", size);
-    addEventListener("pointermove", function (e) { var p = rel(e); if (p) { P.x = p.x; P.y = p.y; } else { P.x = P.y = -999; } }, { passive: true });
-    addEventListener("pointerup", function (e) { if (e.pointerType === "touch") setTimeout(function () { P.x = P.y = -999; }, 700); });
-    addEventListener("pointerdown", function (e) {
-      var p = rel(e); if (!p) return; ring(p.x, p.y, 230, 1);
-      N.forEach(function (a) { var dx = a.x - p.x, dy = a.y - p.y, q = Math.sqrt(dx * dx + dy * dy); if (q < 230) { a.g = 1; if (q > 1) { a.vx += dx / q * .9 * (1 - q / 230); a.vy += dy / q * .9 * (1 - q / 230); } } });
-    }, { passive: true });
+    addEventListener("pointermove", function (e) { var p = rel(e); if (p) { if (!P.on) { P.x = p.x; P.y = p.y; } P.tx = p.x; P.ty = p.y; P.on = true; } else { P.on = false; } }, { passive: true });
+    addEventListener("pointerup", function (e) { if (e.pointerType === "touch") setTimeout(function () { P.on = false; }, 700); });
+    root.addEventListener("mouseleave", function () { P.on = false; });
+    /* click or tap: a single radio wave ripples out and lights the sites it passes */
+    addEventListener("pointerdown", function (e) { var p = rel(e); if (p) R.push({ x: p.x, y: p.y, t0: performance.now(), dur: 2600, max: 240, a: 1, lit: .9 }); }, { passive: true });
     if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { live = es[0].isIntersecting && !d.hidden; go(); }).observe(hero);
     d.addEventListener("visibilitychange", function () { live = !d.hidden; go(); });
   }
